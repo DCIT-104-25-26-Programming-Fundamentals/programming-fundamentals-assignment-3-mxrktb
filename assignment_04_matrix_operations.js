@@ -70,3 +70,81 @@
 
 const readlineSync = require('readline-sync');
 
+function readMatrix(rows, cols) {
+  let matrix = [];
+  for (let i = 0; i < rows; i++) {
+    const rowInput = readlineSync.question(`Enter row ${i + 1}: `);
+    const row = rowInput.split(' ').map(Number);
+    matrix.push(row);
+  }
+  return matrix;
+}
+function transposeMatrix(matrix) {
+  const rows = matrix.length;
+  const cols = matrix[0].length;
+  let transposed = [];
+  for (let j = 0; j < cols; j++) {
+    let newRow = [];
+    for (let i = 0; i < rows; i++) {
+      newRow.push(matrix[i][j]);
+    }
+    transposed.push(newRow);
+  }
+  return transposed;
+}
+function addMatrices(matrixA, matrixB) {
+  const rows = matrixA.length;
+  const cols = matrixA[0].length;
+  let sumMatrix = [];
+    for (let i = 0; i < rows; i++) {
+    let newRow = [];
+    for (let j = 0; j < cols; j++) {
+      newRow.push(matrixA[i][j] + matrixB[i][j]);
+    }
+    sumMatrix.push(newRow);
+  }
+  return sumMatrix;
+}   
+
+function main() {
+  // Part A: Transpose a Matrix
+  const rowsA = readlineSync.questionInt('Enter number of rows for matrix A: ');
+  const colsA = readlineSync.questionInt('Enter number of columns for matrix A: ');
+  const matrixA = readMatrix(rowsA, colsA);
+  const transposedA = transposeMatrix(matrixA);
+  console.log('Transposed Matrix A:');
+  console.table(transposedA);
+  displayMatrix(transposedA);
+  displayMatrix(matrixA);
+
+    // Part B: Add Two Matrices
+    console.log('\nPart B: Add Two Matrices');
+    const rowsB = readlineSync.questionInt('Enter number of rows for matrix B: ');
+    const colsB = readlineSync.questionInt('Enter number of columns for matrix B: ');
+    const matrixB = readMatrix(rowsB, colsB);
+    const sumMatrix = addMatrices(matrixA, matrixB);
+    console.log('Sum Matrix:');
+    console.table(sumMatrix);
+    displayMatrix(sumMatrix);
+
+    // Part C: Multiply Two Matrices
+    console.log('\nPart C: Multiply Two Matrices');
+    console.log('Matrix A:');
+    const rowsCA = readlineSync.questionInt('Enter number of rows for matrix A: ');
+    const colsCA = readlineSync.questionInt('Enter number of columns for matrix A: ');
+    const matrixCA = readMatrix(rowsCA, colsCA);
+    console.log('Matrix B:');
+    const rowsCB = readlineSync.questionInt('Enter number of rows for matrix B: ');
+    const colsCB = readlineSync.questionInt('Enter number of columns for matrix B: ');
+    const matrixCB = readMatrix(rowsCB, colsCB);
+
+    if (colsCA !== rowsCB) {
+      console.log('Incompatible matrix dimensions for multiplication.');
+    } else {
+      const productMatrix = multiplyMatrices(matrixCA, matrixCB);
+      console.log('Product Matrix:');
+      console.table(productMatrix);
+      displayMatrix(productMatrix);
+    }
+  }
+main();

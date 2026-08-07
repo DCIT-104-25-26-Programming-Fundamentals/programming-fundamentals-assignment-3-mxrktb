@@ -84,4 +84,36 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readlineSync = require('readline-sync');
 
+let students = [];
+
+function addStudent() {
+  const name = readlineSync.question('Student name: ');
+  const id = readlineSync.questionInt('Student ID: ');
+  const numScores = readlineSync.questionInt('How many scores? ');
+
+const scores = [];
+  for (let i = 0; i < numScores; i++) {
+    const score = readlineSync.questionInt(`Enter score ${i + 1}: `);
+    scores.push(score);
+  }
+  students.push({ name, id, scores });
+  console.log(`Student "${name}" added successfully.`);
+}
+function displayAllStudents() {
+  if (students.length === 0) {
+    console.log("No students have been added yet.");
+  } else {
+    console.log("Student Records:");
+    console.log("+----------------------+------------+---------------------+----------------+");
+    console.log("| Name                 | ID         | Scores              | Average        |");
+    console.log("+----------------------+------------+---------------------+----------------+");
+    for (const student of students) {
+      const average = student.scores.reduce((a, b) => a + b, 0) / student.scores.length;
+      console.log(`| ${student.name.padEnd(20)} | ${student.id.toString().padEnd(10)} | ${student.scores.join(", ").padEnd(19)} | ${average.toFixed(2).padEnd(14)} |`);
+    }
+    console.log("+----------------------+------------+---------------------+----------------+");
+  }
+}
+main() 
